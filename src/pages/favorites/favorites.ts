@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { IonicPage, NavController, NavParams, ItemSliding } from 'ionic-angular';
 import { FavoriteProvider } from '../../providers/favorite/favorite';
 import { Dish } from '../../shared/dish';
-import { IonicModule  } from '@ionic-angular';
+
 
 /**
  * Generated class for the FavoritesPage page.
