@@ -1,5 +1,5 @@
 import { Component, OnChanges, Inject, OnInit } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Dish } from '../../shared/dish';
 import { DishProvider } from '../../providers/dish/dish';
 import { DishdetailPage } from '../dishdetail/dishdetail';
@@ -22,7 +22,9 @@ export class MenuPage implements OnInit {
   errMess: string;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private favoriteservice: FavoriteProvider,
-    private dishService: DishProvider, @Inject('baseURL') private baseURL) {
+    private dishService: DishProvider, 
+    private toastController: ToastController,
+    @Inject('baseURL') private baseURL) {
   }
   ngOnInit(): void {
     this.dishService.getDishes()
@@ -36,6 +38,12 @@ export class MenuPage implements OnInit {
   addToFavorites(dish: Dish) {
     console.log('Adding to Favorites', dish.id);
     this.favoriteservice.addFavorite(dish.id);
+    this.toastController.create({
+      message:'Dish '+ dish.id +' has been added',
+      duration: 3000
+    }).present();
+    
+
   }
   dishSelected(event, dish) {
     // That's right, we're pushing to ourselves!

@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Dish } from '../../shared/dish';
 import { FavoriteProvider } from '../../providers/favorite/favorite';
 import { Comment } from '../../shared/comment';
@@ -24,14 +24,15 @@ export class DishdetailPage {
   favorite: boolean;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
+    private toastController: ToastController,
     @Inject('baseURL') private baseURL,
     private favoriteService: FavoriteProvider) {
-    this.dish = navParams.get('dish');
-    this.favorite = favoriteService.isFavorite(this.dish.id);
-    this.numcomments = this.dish.comments.length;
-    let total = 0;
-    this.dish.comments.forEach(comment => total += comment.rating);
-    this.avgstars = (total / this.numcomments).toFixed(2);
+      this.dish = navParams.get('dish');
+      this.favorite = favoriteService.isFavorite(this.dish.id);
+      this.numcomments = this.dish.comments.length;
+      let total = 0;
+      this.dish.comments.forEach(comment => total += comment.rating);
+      this.avgstars = (total / this.numcomments).toFixed(2);
   }
 
   ionViewDidLoad() {
@@ -44,6 +45,11 @@ export class DishdetailPage {
     } else {
       this.favorite = this.favoriteService.addFavorite(this.dish.id);
     }
+    this.toastController.create({
+      message: 'Dish ' + this.dish.id + ' toggled as favorite successfully',
+      position: 'middle',
+      duration: 3000
+    }).present();
   }
 
 }
