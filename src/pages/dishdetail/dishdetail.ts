@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, ActionSheetController, ModalController } from 'ionic-angular';
 import { Dish } from '../../shared/dish';
 import { FavoriteProvider } from '../../providers/favorite/favorite';
 import { Comment } from '../../shared/comment';
+import { CommentPage } from '../comment/comment';
 
 /**
  * Generated class for the DishdetailPage page.
@@ -25,14 +26,16 @@ export class DishdetailPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private toastController: ToastController,
+    private actionSheetController: ActionSheetController,
+    private modalController: ModalController,
     @Inject('baseURL') private baseURL,
     private favoriteService: FavoriteProvider) {
-      this.dish = navParams.get('dish');
-      this.favorite = favoriteService.isFavorite(this.dish.id);
-      this.numcomments = this.dish.comments.length;
-      let total = 0;
-      this.dish.comments.forEach(comment => total += comment.rating);
-      this.avgstars = (total / this.numcomments).toFixed(2);
+    this.dish = navParams.get('dish');
+    this.favorite = favoriteService.isFavorite(this.dish.id);
+    this.numcomments = this.dish.comments.length;
+    let total = 0;
+    this.dish.comments.forEach(comment => total += comment.rating);
+    this.avgstars = (total / this.numcomments).toFixed(2);
   }
 
   ionViewDidLoad() {
@@ -50,6 +53,38 @@ export class DishdetailPage {
       position: 'middle',
       duration: 3000
     }).present();
+  }
+  actionSheet() {
+    const actionSheet = this.actionSheetController.create({
+      title: 'Select Actions',
+      buttons: [
+        {
+          text: 'Add to Favorites',
+          handler: () => {
+            this.toogleToFavorites();
+
+          }
+        },
+        {
+          text: 'Add a Comment',
+          handler: () => {
+            this.commentModal();
+
+          }
+        },
+      ]
+
+    });
+    actionSheet.present();
+  }
+  commentModal() {
+
+    let modal = this.modalController.create(CommentPage);
+    modal.present();
+    modal.onDidDismiss(data => {
+      this.dish.comments.push(data);
+      console.log(data);
+    });
   }
 
 }
