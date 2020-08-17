@@ -50,7 +50,7 @@ export class DishdetailPage {
     }
     this.toastController.create({
       message: 'Dish ' + this.dish.id + ' toggled as favorite successfully',
-      position: 'middle',
+      position: 'bottom',
       duration: 3000
     }).present();
   }
