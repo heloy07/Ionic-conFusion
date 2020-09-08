@@ -6,6 +6,7 @@ import { IonicStorageModule } from'@ionic/storage';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Camera } from '@ionic-native/camera';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -27,6 +28,7 @@ import { PromotionProvider } from '../providers/promotion/promotion';
 import { ProcessHttpmsgProvider } from '../providers/process-httpmsg/process-httpmsg';
 import { baseURL } from '../shared/baseurl';
 import { FavoriteProvider } from '../providers/favorite/favorite';
+import { RegisterPage } from '../pages/register/register';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,8 @@ import { FavoriteProvider } from '../providers/favorite/favorite';
     FavoritesPage,
     ReservationPage,
     CommentPage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { FavoriteProvider } from '../providers/favorite/favorite';
     FavoritesPage,
     ReservationPage,
     CommentPage,
-    LoginPage
+    LoginPage,
+    RegisterPage
   ],
   providers: [
     StatusBar,
@@ -66,6 +70,7 @@ import { FavoriteProvider } from '../providers/favorite/favorite';
     LocalNotifications,
     EmailComposer,
     SocialSharing,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DishProvider,
     LeaderProvider,
