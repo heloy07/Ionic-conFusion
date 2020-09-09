@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
-import {  ToastController } from "ionic-angular";
+import { ToastController } from "ionic-angular";
 
 /**
  * Generated class for the RegisterPage page.
@@ -23,7 +23,7 @@ export class RegisterPage {
     private camera: Camera,
     private viewController: ViewController,
     private formBuilder: FormBuilder,
-    private toastController : ToastController) {
+    private toastController: ToastController) {
     this.registerForm = this.formBuilder.group({
       firstname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
       lastname: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(30)]],
@@ -58,8 +58,31 @@ export class RegisterPage {
 
         this.image = win.Ionic.WebView.convertFileSrc(imageData);
       }, (err) => {
-        console.log('Error while selecting image.'+ err);
-        this.presentToast('Error while selecting image.'+ err);
+        console.log('Error while selecting image.' + err);
+        this.presentToast('Error while selecting image.' + err);
+      });
+  }
+  getFromLibrary() {
+    const options: CameraOptions = {
+      quality: 100,
+      targetHeight: 100,
+      targetWidth: 100,
+      correctOrientation: true,
+      allowEdit: true,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.PNG,
+      mediaType: this.camera.MediaType.PICTURE,
+
+    }
+    this.camera.getPicture(options)
+      .then((imageData) => {
+        let win: any = window;
+
+        this.image = win.Ionic.WebView.convertFileSrc(imageData);
+      }, (err) => {
+        console.log('Error while selecting image.' + err);
+        this.presentToast('Error while selecting image.' + err);
       });
   }
   onSubmit() {
